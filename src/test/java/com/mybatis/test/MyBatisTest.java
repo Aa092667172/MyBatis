@@ -20,12 +20,11 @@ public class MyBatisTest {
 		
 		SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
 		//獲取sqlSession
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		//openSession方法接收true時 autocommit為true
 		UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 		
 		int insertUser = mapper.insertUser();
 		System.out.println("reuslt = " +insertUser);
-		sqlSession.commit();
 	}
 }
