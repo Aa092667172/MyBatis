@@ -2,19 +2,70 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- 
+  	核心配置順序：
+  	properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,
+  	objectWrapperFactory?,reflectorFactory?,plugins?,environments?,
+  	databaseIdProvider?,mappers?
+  	
+   -->
 <configuration>
+	<!-- 引入properties文件 -->
+	<properties resource = "jdbc.properties" />
+	<!--  設置類型別名 -->
+	<typeAliases>
+		<!-- 不區分大小寫 不寫alias為類名 -->
+		<typeAlias type="com.mybatis.pojo.User" alias = "user" ></typeAlias>
+	</typeAliases>
+	
+	<!-- environments：配置多個連接數據庫的環境
+		屬性：
+			default:設置默認使用環境id
+	 -->
 	<environments default="development">
+		<!--  environment:用來配置具體的環境
+			  屬性：
+			  		id:表示連接數據庫的環境的唯一標示,不能重複
+		 -->
 		<environment id="development">
+		
+			<!--  transactionManager：事務管理方式
+				  屬性：
+				  		type = "JDBC|MANAGED"
+				  		JDBC:當前環境中,執行SQL時,使用的是JDBC原生的事務管理方式,提交或回滾需要手動執行
+				  		MANAGED:表示被管理,例如spring 
+			 -->
 			<transactionManager type="JDBC" />
+			<!-- 
+				dataSource:配置數據來源
+				屬性：
+					type:設置數據源的類型
+					type = "POOLED|UNPOOLED|JNDI"
+					POOLED:表示使用數據庫連接池緩存數據庫連接
+					UNPOOLED：不使用數據庫連接池
+					JNDI：表示使用上下文中的數據源
+			 -->
 			<dataSource type="POOLED">
-				<property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-				<property name="url" value="jdbc:sqlserver://localhost;databaseName=myBatis" />
-				<property name="username" value="sa" />
-				<property name="password" value="Taehee520" />
+				<!-- 設置連接數據庫的驅動 -->
+				<property name="driver" value="${jdbc.driver}" />
+				<!-- 設置連接數據庫的連接地址 -->
+				<property name="url" value="${jdbc.url}" />
+				<!-- 設置連接數據庫的用戶名 -->
+				<property name="username" value="${jdbc.username}" />
+				<!-- 設置連接數據庫的密碼 -->
+				<property name="password" value="${jdbc.password}" />
 			</dataSource>
 		</environment>
 	</environments>
+	
 	<mappers>
-		<mapper resource="mappers/UserMapper.xml" />
+		<!-- <mapper resource="mappers/UserMapper.xml" /> -->
+		<!-- 
+			已包為單位引入應設文件
+			要求：
+				1.maper介面所在的包要和映射文件所在的包相同
+				2.mapper介面要和映射文件的名字相同
+		 -->
+		<package name="com.mybatis.mapper"></package>
 	</mappers>
 </configuration>

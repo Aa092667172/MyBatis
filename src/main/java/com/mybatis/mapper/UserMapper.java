@@ -1,5 +1,9 @@
 package com.mybatis.mapper;
 
+import java.util.List;
+
+import com.mybatis.pojo.User;
+
 public interface UserMapper {
 	/**
 	 * MyBatis面向介面的兩個一至:
@@ -11,4 +15,34 @@ public interface UserMapper {
 	 * 添加用戶信息
 	 */
 	int insertUser();
+	
+	/**
+	 * 修改
+	 */
+	void updateUser();
+	
+	/**
+	 * 刪除
+	 */
+	int deleteUser(); 
+	
+	/**
+	 * 根據id 查詢
+	 */
+	User getUserById();
+	
+	/**
+	 * 根據name 查詢
+	 */
+	User getUserByName(String name);
+	
+	/**
+	 * 根據name 查詢
+	 */
+	User login(String userName,String password);
+	
+	/**
+	 * 根據所有
+	 */
+	List<User> getAllUser();
 }

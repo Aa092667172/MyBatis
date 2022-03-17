@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.mapper.UserMapper">
+	<insert id="insertUser">
+		insert into t_user values('admin','123456',23,N'男','ttaehee520@gmail.com')
+	</insert>
+	
+	<update id="updateUser">
+		update t_user set username = N'阿森' where id = 2 
+	</update>
+	
+	<delete id="deleteUser">
+		delete t_user where id = 3 
+	</delete>
+	<!-- 查詢功能標籤 需要設定resultType 或 resultＭap
+		resultType 設置默認的映射關係
+		resultＭap 設置自定義的映射關係（多對1 1對多 或著屬性名稱與table名稱不同）
+	 -->
+	 <!-- 因主配置有設置typeAlias 因此等同resultType ="com.mybatis.pojo.User" -->
+	<select id="getUserById" resultType = "User">
+		select  * from t_user where id = 2
+	</select>
+	<!-- 
+		${} = 直接拼接 需加上單引號 '${username}'
+		#{} = jdbc ? 占位符賦值
+		{} 內參數可任意取名 但建議與方法參數名相同
+	 -->
+	<select id="getUserByName" resultType = "User">
+		select  * from t_user where username = #{name}
+	</select>
+	
+	<select id="login" resultType = "User">
+		select  * from t_user where username = #{userName} and password = #{password}
+	</select>
+	
+	<select id="getAllUser" resultType = "User">
+		select  * from t_user 
+	</select>
+	
+</mapper>
