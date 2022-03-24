@@ -5,15 +5,15 @@
 
 <mapper namespace="com.mybatis.mapper.UserMapper">
 	<insert id="insertUser">
-		insert into t_user values('admin','123456',23,N'男','ttaehee520@gmail.com')
+		insert into t_user values(#{userName},#{password},#{age},#{sex},#{email})
 	</insert>
 	
 	<update id="updateUser">
-		update t_user set username = N'阿森' where id = 2 
+		update t_user set username = #{userName},password=#{password},age=#{age},sex=#{sex},email=#{email} where id = #{id} 
 	</update>
 	
 	<delete id="deleteUser">
-		delete t_user where id = 3 
+		delete t_user where id = #{id} 
 	</delete>
 	<!-- 查詢功能標籤 需要設定resultType 或 resultＭap
 		resultType 設置默認的映射關係
@@ -21,7 +21,7 @@
 	 -->
 	 <!-- 因主配置有設置typeAlias 因此等同resultType ="com.mybatis.pojo.User" -->
 	<select id="getUserById" resultType = "User">
-		select  * from t_user where id = 2
+		select  * from t_user where id = #{id}
 	</select>
 	<!-- 
 		${} = 直接拼接 需加上單引號 '${username}'
@@ -33,7 +33,17 @@
 	</select>
 	
 	<select id="login" resultType = "User">
-		select  * from t_user where username = #{userName} and password = #{password}
+		 select  * from t_user where username = #{userName} and password = #{password}
+		<!-- 	select  * from t_user where username = #{param1} and password = #{param2} -->
+		 <!--	select  * from t_user where username = '${param1}' and password = '${param2}' -->
+	</select>
+	
+	<!-- 手動新增map放入 -->
+	<select id="checkLoginByMap" resultType = "User">
+		 select  * from t_user where username = #{userName} and password = #{password}
+	</select>
+	<select id="checkLoginByParam" resultType = "User">
+		 select  * from t_user where username = #{usernameTest} and password = #{passwordTest}
 	</select>
 	
 	<select id="getAllUser" resultType = "User">
